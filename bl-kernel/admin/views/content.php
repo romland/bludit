@@ -33,6 +33,7 @@ function moveTypeLabel($current, $target, $L) {
 function tableRow($pageKey, $type, $isSticky = false, $renderChildren = false) {
 	global $url;
 	global $L;
+        global $plugins;
 
 	try {
 		$page = new Page($pageKey);
@@ -111,7 +112,7 @@ function tableRow($pageKey, $type, $isSticky = false, $renderChildren = false) {
 		if (!empty($remaining)) {
 			echo '<div class="dropdown-divider"></div>';
 			foreach ($remaining as $target) {
-				echo '<a href="#" class="dropdown-item changeTypeButton" data-key="'.$page->key().'" data-type="'.$target.'"><i class="fa '.moveTypeIcon($target).' fa-fw mr-2"></i>'.moveTypeLabel($type, $target, $L).'</a>';
+				echo '<a href="#" class="dropdown-item changeTypeButton" data-key="'.$page->key().'" data-type="'.$target.'"><i class="fa '.moveTypeIcon($target).' fa-fw mr-2"></i>'.$L->g(moveTypeLabel($type, $target, $L)).'</a>';
 			}
 		}
 	}
@@ -120,6 +121,14 @@ function tableRow($pageKey, $type, $isSticky = false, $renderChildren = false) {
 		echo '<div class="dropdown-divider"></div>';
 		echo '<a href="#" class="dropdown-item text-danger deletePageButton" data-toggle="modal" data-target="#jsdeletePageModal" data-key="'.$page->key().'"><i class="fa fa-trash fa-fw mr-2"></i>'.$L->g('Delete').'</a>';
 	}
+
+	if (!empty($plugins['adminContentListActions'])) {
+		foreach ($plugins['adminContentListActions'] as $plugin) {
+			$actionHtml = $plugin->adminContentListActions($pageKey);
+			if (!empty($actionHtml)) echo $actionHtml;
+		}
+	}
+
 	echo '</div></div>';
 	echo '</td>';
 	echo '</tr>';
@@ -151,6 +160,14 @@ function tableRow($pageKey, $type, $isSticky = false, $renderChildren = false) {
 			echo '<a class="dropdown-item" href="'.HTML_PATH_ADMIN_ROOT.'edit-content/'.$child->key().'"><i class="fa fa-edit fa-fw mr-2"></i>'.$L->g('Edit').'</a>';
 			echo '<div class="dropdown-divider"></div>';
 			echo '<a href="#" class="dropdown-item text-danger deletePageButton" data-toggle="modal" data-target="#jsdeletePageModal" data-key="'.$child->key().'"><i class="fa fa-trash fa-fw mr-2"></i>'.$L->g('Delete').'</a>';
+
+			if (!empty($plugins['adminContentListActions'])) {
+				foreach ($plugins['adminContentListActions'] as $plugin) {
+					$actionHtml = $plugin->adminContentListActions($child->key());
+					if (!empty($actionHtml)) echo $actionHtml;
+				}
+			}
+
 			echo '</div></div>';
 			echo '</td>';
 			echo '</tr>';

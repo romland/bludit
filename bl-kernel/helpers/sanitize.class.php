@@ -15,6 +15,13 @@ class Sanitize {
 			$flags = ENT_COMPAT|ENT_HTML5;
 		}
 
+		// Massage for strict typing (PHP8 breakage)
+		if (is_array($text)) {
+			$text = json_encode($text);
+		} else {
+			$text = (string)$text;
+		}
+                
 		return htmlspecialchars($text, $flags, CHARSET);
 	}
 

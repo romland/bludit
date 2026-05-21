@@ -44,6 +44,16 @@
 		<a class="nav-link" href="<?php echo HTML_PATH_ADMIN_ROOT.'users' ?>"><span class="fa fa-users"></span><?php $L->p('Users') ?></a>
 	</li>
 
+	<?php
+		if (!empty($plugins['adminContentSidebar'])) {
+			foreach ($plugins['adminContentSidebar'] as $pluginSidebar) {
+				echo '<li class="nav-item">';
+				echo $pluginSidebar->adminContentSidebar();
+				echo '</li>';
+			}
+		}
+	?>
+
 	<li class="nav-item mt-3">
 		<h4><?php $L->p('Settings') ?></h4>
 	</li>

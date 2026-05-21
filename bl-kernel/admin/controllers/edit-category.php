@@ -21,8 +21,10 @@ checkRole(array('admin'));
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($_POST['action']=='delete') {
 		deleteCategory($_POST);
+		Theme::plugins('adminControllerDeleteCategory');
 	} elseif ($_POST['action']=='edit') {
 		editCategory($_POST);
+		Theme::plugins('adminControllerEditCategory');
 	}
 
 	Redirect::page('categories');
