@@ -26,7 +26,8 @@
                     var date = new Date()
                     var hours = date.getHours()
                     var icon, greeting
-                    var suffix = <?php echo json_encode($name ? ', ' . $name : '', JSON_HEX_TAG | JSON_UNESCAPED_UNICODE) ?>
+                    // Sigh. Don't be one of those; just frickin use ;. Yes, this crashes due to that _sometimes_, I don't even want to know why.
+                    var suffix = <?php echo json_encode($name ? ', ' . $name : '', JSON_HEX_TAG | JSON_UNESCAPED_UNICODE) ?>;
                     if (hours >= 6 && hours < 12) {
                         icon = 'fa-sun-o'; greeting = <?php echo json_encode($L->g('good-morning'), JSON_HEX_TAG | JSON_UNESCAPED_UNICODE) ?> + suffix
                     } else if (hours >= 12 && hours < 18) {
